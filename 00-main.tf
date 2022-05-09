@@ -21,8 +21,8 @@ provider "azurerm" {
 #### Set a random password for the windows administrator
 ########
 resource "random_password" "windowspass" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
@@ -30,7 +30,7 @@ resource "random_password" "windowspass" {
 #### Set a random password for the Linux user
 ########
 resource "random_password" "linuxpass" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }

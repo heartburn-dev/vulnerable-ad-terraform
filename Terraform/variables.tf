@@ -63,12 +63,6 @@ variable "windows-user" {
   default     = "trinity" 
 }
 
-variable "domain-admin" {
-  type        = string
-  description = "Domain Administrator for the Windows domain."
-  default     = "neo"
-}
-
 variable "region" {
   type        = string
   description = "Location of Azure infrastructure."

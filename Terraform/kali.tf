@@ -103,7 +103,6 @@ resource "null_resource" "ansible-provisioning" {
   triggers = {
     always_run = "${timestamp()}"
     zion_dc_id = azurerm_windows_virtual_machine.zion-dc-vm.id
-    winserv2019_id = azurerm_windows_virtual_machine.web-server-vm.id
     wkstn_1_id = azurerm_windows_virtual_machine.wkstn-1-vm.id
     wkstn_2_id = azurerm_windows_virtual_machine.wkstn-2-vm.id
     kali_id = azurerm_linux_virtual_machine.kali-vm.id

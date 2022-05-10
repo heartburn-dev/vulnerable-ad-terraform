@@ -1,0 +1,20 @@
+---
+- name: Configure DNS
+  win_dns_client:
+    adapter_names: Ethernet
+    ipv4_addresses:
+    - 10.10.10.10 # ZION-DC01
+    - 8.8.8.8
+
+- name: Promote to member
+  win_domain_membership:
+    dns_domain_name: {{ domain_name }}
+    domain_admin_user: {{ ansible_user }}@{{ domain_name }}
+    domain_admin_password: {{ ansible_password }}
+    state: domain
+  register: domain_state
+
+- name: Reboot after joining
+  win_reboot:
+    msg: "Joining domain. Rebooting..."
+  when: domain_state.reboot_required

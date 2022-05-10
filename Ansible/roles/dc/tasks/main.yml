@@ -1,30 +1,57 @@
 ---
-- name: Download User Install Script
-  win_get_url:
-    url: https://github.com/chvancooten/BadBlood/archive/refs/heads/master.zip
-    dest: C:\Users\Public\Downloads\BadBlood-master.zip
+# Install ADCS
+- name: Install ADCS
+  win_feature:
+    name: AD-Certificate
+    state: present
+    include_sub_features: yes
+    include_management_tools: yes
+  register: win_feature
 
-- name: Extract BadBlood archive
-  win_unzip:
-    src: C:\Users\Public\Downloads\BadBlood-master.zip
-    dest: C:\Users\Public\Downloads
-    creates: C:\Users\Public\Downloads\BadBlood-master
-    delete_archive: yes
+- name: Reboot after ADCS installation
+  win_reboot:
+  when: win_feature.reboot_required
 
-- name: Run BadBlood to populate AD insecurely
-  ansible.windows.win_powershell:
-    script: C:\Users\Public\Downloads\BadBlood-master\Invoke-BadBlood.ps1
-    parameters:
-      NonInteractive: true
-      SkipLapsInstall: true
-    creates: C:\Windows\AD.populated
+# Add all the users we want
+- name: Ensure user neo is created and use custom credentials to create the user
+  community.windows.win_domain_user:
+    name: neo
+    firstname: thomas  
+    surname: anderson
+    password: Password123!
+    description: I'm the one.
+    state: present
+    domain_username: {{ domain_name }}\neo
+    domain_password: Password123!
+    domain_server: {{ domain_name }}
 
-- name: Touch file to track AD state
-  win_file:
-    path: C:\Windows\AD.populated
-    state: touch
+- name: Ensure user cypher is created and use custom credentials to create the user
+  community.windows.win_domain_user:
+    name: cypher
+    firstname: bad  
+    surname: guy
+    password: Password1234!
+    description: Don't forget your password Cypher! Password1234!
+    state: present
+    domain_username: {{ domain_name }}\cypher
+    domain_password: Password1234!
+    domain_server: {{ domain_name }}
 
-- name: Clean up BadBlood files
-  win_file:
-    path: C:\Users\Public\Downloads\BadBlood-master
-    state: absent
+- name: Ensure user morpheus is created and use custom credentials to create the user
+  community.windows.win_domain_user:
+    name: morpheus
+    firstname: just  
+    surname: morpheus
+    password: Passw0rd123
+    description: I'll look after the service accounts. You can trust me!
+    groups:
+      - Domain Admins
+    state: present
+    domain_username: {{ domain_name }}\morpheus
+    domain_password: Passw0rd123
+    domain_server: {{ domain_name }}
+
+
+- name: Add a Service Principal Name to the Morpheus user
+  ansible.windows.win_command: setspn -a {{ domain_name }}/morpheus.{{ domain_name }}:9001 {{ domain_name }}\morpheus
+  register: setspn_output

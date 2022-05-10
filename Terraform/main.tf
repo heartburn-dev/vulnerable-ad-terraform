@@ -24,3 +24,8 @@ resource "random_password" "password" {
     length  = 16
     special = true
 }
+
+# Specify where the custom data file is for WinRM initialization
+locals {
+    custom_data_content  = base64encode(file("${path.module}/scripts/ConfigureRemotingForAnsible.ps1"))
+}

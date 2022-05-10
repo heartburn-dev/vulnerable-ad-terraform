@@ -8,9 +8,6 @@
 - hosts: windows
   strategy: free
   tasks:
-    - include_role:
-        name: windowsserver2019
-      when: "'windowsserver2019' in group_names"
     - include_role: 
         name: workstations
       when: "'workstations' in group_names"

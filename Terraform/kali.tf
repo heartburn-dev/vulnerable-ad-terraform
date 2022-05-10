@@ -94,36 +94,6 @@ resource "null_resource" "ansible-groupvars-windows-creation" {
 }
 
 ########
-# Obtain the variables needed to populate the linux.tmpl file
-########
-data "template_file" "ansible-groupvars-linux" {
-  template = "${file("../Ansible/group_variables/linux_template.tmpl")}"
-
-  depends_on = [
-    var.kali-username,
-    random_password.password
-  ]
-  
-  vars = {
-    username    = var.kali-username
-    password    = random_password.password.result
-  }
-}
-
-########
-# Render the template with the above variables
-########
-resource "null_resource" "ansible-groupvars-linux-creation" {
-  triggers = {
-    template_rendered = "${data.template_file.ansible-groupvars-linux.rendered}"
-  }
-  
-  provisioner "local-exec" {
-    command = "echo '${data.template_file.ansible-groupvars-linux.rendered}' > ../Ansible/group_vars/linux.yml"
-  }
-}
-
-########
 # Provision using Ansible
 # Triggers ensure that all VM's are ready before provisioning starts
 ########

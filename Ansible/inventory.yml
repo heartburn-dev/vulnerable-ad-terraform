@@ -4,10 +4,6 @@ windows:
     hosts:
       10.10.10.10
 
-  windowsserver2019:
-    hosts:
-      10.10.10.11
-
   workstations:
     hosts:
       10.10.10.50

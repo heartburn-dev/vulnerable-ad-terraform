@@ -81,18 +81,6 @@ variable "dc-size" {
   default     = "Standard_D2as_v4"
 }
 
-variable "web-server-size" {
-  type        = string
-  description = "The machine size of the Windows Server 2019 web server VM."
-  default     = "Standard_D2as_v4"
-}
-
-variable "web-server-hostname" {
-  type        = string
-  description = "The name of the Web Server."
-  default     = "WEB01"
-}
-
 variable "workstation-size" {
   type        = string
   description = "The machine size of the Windows 10 VM."

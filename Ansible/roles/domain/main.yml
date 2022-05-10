@@ -1,4 +1,12 @@
 ---
+- name: Set DC DNS 
+  win_dns_client:
+      adapter_names: '*'
+      ipv4_addresses:
+        - 127.0.0.1
+        - 8.8.8.8
+      log_path: C:\Windows\Tasks\dns_log.txt
+
 - name: Install AD Services feature
   win_feature:
     name: AD-Domain-Services

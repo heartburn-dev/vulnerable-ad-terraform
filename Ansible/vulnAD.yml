@@ -4,6 +4,8 @@
     - include_role:
         name: domain
       when: "'dc' in group_names"
+  vars_files:
+    - ./group_variables/windows_template.tmpl
 
 - hosts: windows
   strategy: free
@@ -14,3 +16,5 @@
     - include_role:
         name: dc
       when: "'dc' in group_names"
+  vars_files:
+    - ./group_variables/windows_template.tmpl

@@ -60,7 +60,7 @@ variable "attacker-username" {
 variable "windows-user" {
   type        = string
   description = "User account for the Administrative duties on the Windows workstations."
-  default     = "trinityadmin" 
+  default     = "trinity" 
 }
 
 variable "domain-admin" {
@@ -96,13 +96,13 @@ variable "web-server-hostname" {
 variable "workstation-size" {
   type        = string
   description = "The machine size of the Windows 10 VM."
-  default     = "Standard_B4ms"
+  default     = "Standard_B2s"
 }
 
 variable "jumpbox-size" {
   type        = string
   description = "The machine size of the jumpbox VM."
-  default     = "Standard_B4ms"
+  default     = "Standard_B2s"
 }
 
 locals {

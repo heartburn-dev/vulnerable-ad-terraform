@@ -1,0 +1,19 @@
+---
+- name: Install AD Services feature
+  win_feature:
+    name: AD-Domain-Services
+    include_management_tools: yes
+    include_sub_features: yes
+    state: present
+  register: result
+
+- name: Create new forest
+  win_domain:
+    dns_domain_name: {{ domain_name }}
+    safe_mode_password: {{ ansible_password }}
+  register: result
+
+- name: Reboot after creation
+  win_reboot:
+    msg: "Server config in progress; rebooting..."
+  when: result.reboot_required

@@ -58,6 +58,12 @@ resource "azurerm_windows_virtual_machine" "zion-dc-vm" {
     content = local.autologon_data
     setting = "AutoLogon"
   }
+
+  additional_unattend_content {
+    setting = "FirstLogonCommands"
+    content = local.first_logon_commands
+  }
+
 }
 
 ########

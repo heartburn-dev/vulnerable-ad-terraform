@@ -1,0 +1,30 @@
+---
+- name: Download User Install Script
+  win_get_url:
+    url: https://github.com/chvancooten/BadBlood/archive/refs/heads/master.zip
+    dest: C:\Users\Public\Downloads\BadBlood-master.zip
+
+- name: Extract BadBlood archive
+  win_unzip:
+    src: C:\Users\Public\Downloads\BadBlood-master.zip
+    dest: C:\Users\Public\Downloads
+    creates: C:\Users\Public\Downloads\BadBlood-master
+    delete_archive: yes
+
+- name: Run BadBlood to populate AD insecurely
+  ansible.windows.win_powershell:
+    script: C:\Users\Public\Downloads\BadBlood-master\Invoke-BadBlood.ps1
+    parameters:
+      NonInteractive: true
+      SkipLapsInstall: true
+    creates: C:\Windows\AD.populated
+
+- name: Touch file to track AD state
+  win_file:
+    path: C:\Windows\AD.populated
+    state: touch
+
+- name: Clean up BadBlood files
+  win_file:
+    path: C:\Users\Public\Downloads\BadBlood-master
+    state: absent

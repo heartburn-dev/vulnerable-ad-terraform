@@ -45,13 +45,13 @@ variable "workstation-hostname" {
   default     = ["WKSTN-01", "WKSTN-02"]
 }
 
-variable "attacker-machine-hostname" {
+variable "kali-hostname" {
   type        = string
   description = "Name of the attacking machine."
   default     = "MACHINES"
 }
 
-variable "attacker-username" {
+variable "kali-username" {
   type        = string
   description = "Account on the attacking machine used to access the infrasucture."
   default     = "smith"
@@ -99,13 +99,13 @@ variable "workstation-size" {
   default     = "Standard_B2s"
 }
 
-variable "jumpbox-size" {
+variable "kali-size" {
   type        = string
   description = "The machine size of the jumpbox VM."
-  default     = "Standard_B2s"
+  default     = "Standard_F2"
 }
 
 locals {
-  #first_logon_commands = file("${path.module}/scripts/FirstLogonCommands.xml")
+  first_logon_commands = file("${path.module}/scripts/FirstLogonCommands.xml")
   autologon_data = "<AutoLogon><Password><Value>${random_password.password.result}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.windows-user}</Username></AutoLogon>"
 }

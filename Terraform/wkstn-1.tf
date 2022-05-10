@@ -45,7 +45,7 @@ resource "azurerm_windows_virtual_machine" "wkstn-1-vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    disk_size_gb = 20
+    disk_size_gb = 60
   }
 
   source_image_reference {
@@ -60,6 +60,11 @@ resource "azurerm_windows_virtual_machine" "wkstn-1-vm" {
     content = local.autologon_data
     setting = "AutoLogon"
   }
+
+  additional_unattend_content {
+    setting = "FirstLogonCommands"
+    content = local.first_logon_commands
+  }  
 }
 
 ########

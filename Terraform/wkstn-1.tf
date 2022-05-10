@@ -26,11 +26,6 @@ resource "azurerm_network_interface" "wkstn-1-nic" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine
 ########
 resource "azurerm_windows_virtual_machine" "wkstn-1-vm" {
-  depends_on = [
-    azurerm_network_interface.wkstn-1-nic,
-    azurem_nat_gateway.ng,
-    azurevm_windows_virtual_machine.zion-dc-vm
-  ]
   name                = "wkstn-1"
   computer_name = var.workstation-hostname[0]
   resource_group_name = azurerm_resource_group.primary.name
@@ -39,9 +34,9 @@ resource "azurerm_windows_virtual_machine" "wkstn-1-vm" {
   provision_vm_agent = true
   timezone = var.timezone
   admin_username      = var.windows-user
-  admin_password      = randompassword.windowspass.result
+  admin_password      = random_password.password.result
   enable_automatic_updates = false
-  disk_size_gb = 20
+  
 
   network_interface_ids = [
     azurerm_network_interface.wkstn-1-nic.id,
@@ -50,6 +45,7 @@ resource "azurerm_windows_virtual_machine" "wkstn-1-vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_size_gb = 20
   }
 
   source_image_reference {
@@ -87,6 +83,6 @@ resource "azurerm_virtual_machine_extension" "provisioning-wkstn-1" {
 
   depends_on = [
     azurerm_windows_virtual_machine.wkstn-1-vm,
-    azurem_nat_gateway.ng
+    azurerm_nat_gateway.ng
   ]
 }

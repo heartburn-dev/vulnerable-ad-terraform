@@ -26,11 +26,6 @@ resource "azurerm_network_interface" "web-server-nic" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine
 ########
 resource "azurerm_windows_virtual_machine" "web-server-vm" {
-  depends_on = [
-    azurerm_network_interface.web-server-nic,
-    azurem_nat_gateway.ng,
-    azurevm_windows_virtual_machine.zion-dc-vm
-  ]
   name                = "web01"
   computer_name = var.web-server-hostname
   resource_group_name = azurerm_resource_group.primary.name
@@ -39,9 +34,8 @@ resource "azurerm_windows_virtual_machine" "web-server-vm" {
   provision_vm_agent = true
   timezone = var.timezone
   admin_username      = var.windows-user
-  admin_password      = randompassword.windowspass.result
+  admin_password      = random_password.password.result
   enable_automatic_updates = false
-  disk_size_gb = 60
 
   network_interface_ids = [
     azurerm_network_interface.web-server-nic.id,
@@ -50,6 +44,7 @@ resource "azurerm_windows_virtual_machine" "web-server-vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_size_gb = 60
   }
 
   source_image_reference {
@@ -87,6 +82,6 @@ resource "azurerm_virtual_machine_extension" "provisioning-web-server" {
 
   depends_on = [
     azurerm_windows_virtual_machine.web-server-vm,
-    azurem_nat_gateway.ng
+    azurerm_nat_gateway.ng
   ]
 }

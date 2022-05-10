@@ -106,6 +106,6 @@ variable "jumpbox-size" {
 }
 
 locals {
-  first_logon_commands = file("${path.module}/scripts/FirstLogonCommands.xml")
-  autologon_data = "<AutoLogon><Password><Value>${random_password.windowspass.result}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.windows-user}</Username></AutoLogon>"
+  #first_logon_commands = file("${path.module}/scripts/FirstLogonCommands.xml")
+  autologon_data = "<AutoLogon><Password><Value>${random_password.password.result}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.windows-user}</Username></AutoLogon>"
 }

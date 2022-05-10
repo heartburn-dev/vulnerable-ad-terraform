@@ -29,7 +29,7 @@ resource "azurerm_virtual_network" "vnet" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
 ########
 resource "azurerm_subnet" "vulnerableADLabs-subnet" {
-  name                 = "vulnerableADLabsSubnet"
+  name                 = "vulnerableADLabs-Subnet"
   address_prefixes     = ["10.10.10.0/24"]
   virtual_network_name = azurerm_virtual_network.vnet.name
   resource_group_name  = azurerm_resource_group.primary.name
@@ -40,7 +40,7 @@ resource "azurerm_subnet" "vulnerableADLabs-subnet" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group
 ########
 resource "azurerm_network_security_group" "nsg" {
-  name                = "Network Security Group Policies"
+  name                = "NetworkSecurityGroupPolicies"
   location            = azurerm_resource_group.primary.location
   resource_group_name = azurerm_resource_group.primary.name
 
@@ -171,24 +171,22 @@ resource "azurerm_lb_nat_rule" "lb-ssh-nat-rule" {
 # Configure the NAT gateway
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/nat_gateway
 ########
-resource "azurerm_nat_gateway" "ng" {
+resource "azurerm_nat_gateway" "nat-gateway" {
   name                    = "nat-gateway"
   location                = azurerm_resource_group.primary.location
   resource_group_name     = azurerm_resource_group.primary.name
-  sku_name                = "Standard"
-  idle_timeout_in_minutes = 10
 }
 
 ######## 
 # Associate subnets and public IPs with eachother
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/nat_gateway_public_ip_association
 ########
-resource "azurerm_nat_gateway_public_ip_association" "nga" {
-  nat_gateway_id       = azurerm_nat_gateway.ng.id
+resource "azurerm_nat_gateway_public_ip_association" "nat-gateway-ip" {
+  nat_gateway_id       = azurerm_nat_gateway.nat-gateway.id
   public_ip_address_id = azurerm_public_ip.nat-gateway-public-ip.id
 }
 
-resource "azurerm_subnet_nat_gateway_association" "snga" {
+resource "azurerm_subnet_nat_gateway_association" "subnet-nat-gateway" {
   subnet_id      = azurerm_subnet.vulnerableADLabs-subnet.id
-  nat_gateway_id = azurerm_nat_gateway.ng.id
+  nat_gateway_id = azurerm_nat_gateway.nat-gateway.id
 }

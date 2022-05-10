@@ -14,7 +14,7 @@ resource "azurerm_network_interface" "kali-nic" {
   ip_configuration {
     name                          = "kali-internal-nic"
     subnet_id                     = azurerm_subnet.vulnerableADLabs-subnet.id
-    private_ip_address_allocation = "static"
+    private_ip_address_allocation = "Static"
     private_ip_address = "10.10.10.100"
   }
 }
@@ -24,7 +24,7 @@ resource "azurerm_network_interface" "kali-nic" {
 ########
 resource "azurerm_network_interface_nat_rule_association" "kali-nic-nat" {
   network_interface_id  = azurerm_network_interface.kali-nic.id
-  ip_configuration_name = "kali-nic-config"
+  ip_configuration_name = "kali-internal-nic"
   nat_rule_id           = azurerm_lb_nat_rule.lb-ssh-nat-rule.id
 }
 
@@ -53,9 +53,9 @@ resource "azurerm_linux_virtual_machine" "kali-vm" {
   }
 
   source_image_reference {
-    publisher = "techlatest"
-    offer     = "desktop-linux-kali"
-    sku       = "desktop-linux-kali"
+    publisher = "Debian"
+    offer     = "debian-11"
+    sku       = "11-gen2"
     version   = "latest"
   }
 }
@@ -89,7 +89,7 @@ resource "null_resource" "ansible-groupvars-windows-creation" {
   }
   
   provisioner "local-exec" {
-    command = "echo '${data.template_file.ansible-groupvars-windows.rendered}' > ../Ansible/group_vars/windows.yml"
+    command = "echo '${data.template_file.ansible-groupvars-windows.rendered}' > ../Ansible/group_variables/windows_template.tmpl"
   }
 }
 

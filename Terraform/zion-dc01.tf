@@ -14,7 +14,7 @@ resource "azurerm_network_interface" "zion-dc-nic" {
   ip_configuration {
     name                          = "zion-dc-internal-ip"
     subnet_id                     = azurerm_subnet.vulnerableADLabs-subnet.id
-    private_ip_address_allocation = "static"
+    private_ip_address_allocation = "Static"
     private_ip_address = "10.10.10.10"
 
   }
@@ -87,6 +87,6 @@ resource "azurerm_virtual_machine_extension" "provisioning-zion-dc" {
 
   depends_on = [
     azurerm_windows_virtual_machine.zion-dc-vm,
-    azurerm_nat_gateway.ng
+    azurerm_nat_gateway.nat-gateway
   ]
 }

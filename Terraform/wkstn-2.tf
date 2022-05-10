@@ -14,7 +14,7 @@ resource "azurerm_network_interface" "wkstn-2-nic" {
   ip_configuration {
     name                          = "wkstn-2-internal-ip"
     subnet_id                     = azurerm_subnet.vulnerableADLabs-subnet.id
-    private_ip_address_allocation = "static"
+    private_ip_address_allocation = "Static"
     private_ip_address = "10.10.10.51"
 
   }
@@ -88,6 +88,6 @@ resource "azurerm_virtual_machine_extension" "provisioning-wkstn-2" {
 
   depends_on = [
     azurerm_windows_virtual_machine.wkstn-2-vm,
-    azurerm_nat_gateway.ng
+    azurerm_nat_gateway.nat-gateway
   ]
 }

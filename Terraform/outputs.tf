@@ -49,6 +49,7 @@ output "windows-admin" {
 output "random-password" {
     value = random_password.password.result
     description = "The password used for admin accounts."
+    sensitive = true
 }
 
 ## Hostnames
@@ -63,12 +64,12 @@ output "dc-hostname" {
 }
 
 output "wkstn-1-hostname"{
-    value = var.workstaton-hostname[0]
+    value = var.workstation-hostname[0]
     description = "The hostname of the first workstation added."
 }
 
 output "wkstn-2-hostname"{
-    value = var.workstaton-hostname[1]
+    value = var.workstation-hostname[1]
     description = "The hostname of the second workstation added."
 }
 

@@ -1,7 +1,8 @@
-ansible_user: ${username}
-ansible_password: "${password}"
+ansible_user: tstark
+ansible_password: "aoQMdr<ej3@BtGON"
 ansible_connection: winrm
-domain_name: ${domain_name}
+domain_name: MARVEL.LOCAL
 reverse_dns_zone: "10.10.10.0/24"
 ansible_winrm_server_cert_validation: ignore
 ansible_winrm_transport: basic
+

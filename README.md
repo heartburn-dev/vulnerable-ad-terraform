@@ -17,7 +17,7 @@ terraform init
 terraform apply 
 ```
 
-Enter your public IPv4 address - This will be whitelisted for access. Then type yes. It generally takes about 15 minutes to spin up.
+Enter your public IPv4 address - This will be whitelisted for access. Then type yes. It generally takes about 15 minutes to spin up. If it says something failed, give it time, it will generally get it before the retries run out. Sometimes certain components just take longer to start again. 
 
 ## References
 

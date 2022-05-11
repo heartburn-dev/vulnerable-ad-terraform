@@ -1,20 +1,20 @@
 ---
-- hosts: all
-  tasks:
-    - include_role:
-        name: domain
-      when: "'dc' in group_names"
+# Prepare the dc
+- hosts: domaincontroller
+  roles:
+    - installdomain
   vars_files:
-    - ./group_variables/windows_template.tmpl
+    - ./group_vars/windows_template.yml
 
-- hosts: windows
-  strategy: free
-  tasks:
-    - include_role: 
-        name: workstations
-      when: "'workstations' in group_names"
-    - include_role:
-        name: dc
-      when: "'dc' in group_names"
+- hosts: domaincontroller
+  roles:
+    -  dc
   vars_files:
-    - ./group_variables/windows_template.tmpl
+    - ./group_vars/windows_template.yml
+
+# Prepare the windows server 2019
+- hosts: workstations
+  roles:
+    - workstations
+  vars_files:
+    - ./group_vars/windows_template.yml

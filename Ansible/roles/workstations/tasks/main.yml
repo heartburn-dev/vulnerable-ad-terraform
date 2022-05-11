@@ -8,9 +8,9 @@
 
 - name: Promote to member
   win_domain_membership:
-    dns_domain_name: {{ domain_name }}
-    domain_admin_user: {{ ansible_user }}@{{ domain_name }}
-    domain_admin_password: {{ ansible_password }}
+    dns_domain_name: "{{ domain_name }}"
+    domain_admin_user: "{{ ansible_user }}@{{ domain_name }}"
+    domain_admin_password: "{{ ansible_password }}"
     state: domain
   register: domain_state
 

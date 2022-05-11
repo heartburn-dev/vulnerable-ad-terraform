@@ -65,7 +65,7 @@ resource "azurerm_linux_virtual_machine" "kali-vm" {
 ########
 
 data "template_file" "ansible-groupvars-windows" {
-  template = "${file("../Ansible/group_variables/windows_template.tmpl")}"
+  template = "${file("../Ansible/group_vars/windows_template.yml")}"
 
   depends_on = [
     var.windows-user,
@@ -89,7 +89,7 @@ resource "null_resource" "ansible-groupvars-windows-creation" {
   }
   
   provisioner "local-exec" {
-    command = "echo '${data.template_file.ansible-groupvars-windows.rendered}' > ../Ansible/group_variables/windows_template.tmpl"
+    command = "echo '${data.template_file.ansible-groupvars-windows.rendered}' > ../Ansible/group_vars/windows_template.yml"
   }
 }
 

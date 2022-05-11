@@ -17,8 +17,8 @@
 
 - name: Create new forest
   win_domain:
-    dns_domain_name: {{ domain_name }}
-    safe_mode_password: {{ ansible_password }}
+    dns_domain_name: "{{ domain_name }}"
+    safe_mode_password: "{{ ansible_password }}"
   register: result
 
 - name: Reboot after creation

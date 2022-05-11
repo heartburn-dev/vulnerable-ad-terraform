@@ -66,25 +66,25 @@ variable "windows-user" {
 variable "region" {
   type        = string
   description = "Location of Azure infrastructure."
-  default     = "ukwest"
+  default     = "westeurope"
 }
 
 variable "dc-size" {
   type        = string
   description = "The machine size of the Windows Server 2019 DC VM."
-  default     = "Standard_DC2s_v2"
+  default     = "Standard_B2ms"
 }
 
 variable "workstation-size" {
   type        = string
   description = "The machine size of the Windows 10 VM."
-  default     = "Standard_DC2s_v2"
+  default     = "Standard_B2ms"
 }
 
 variable "kali-size" {
   type        = string
   description = "The machine size of the jumpbox VM."
-  default     = "Standard_DC2s_v2"
+  default     = "Standard_B2ms"
 }
 
 locals {

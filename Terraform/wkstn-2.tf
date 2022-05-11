@@ -35,7 +35,7 @@ resource "azurerm_windows_virtual_machine" "wkstn-2-vm" {
   timezone = var.timezone
   admin_username      = var.windows-user
   admin_password      = random_password.password.result
-  enable_automatic_updates = false
+  enable_automatic_updates = true
   
 
   network_interface_ids = [
@@ -45,7 +45,7 @@ resource "azurerm_windows_virtual_machine" "wkstn-2-vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    disk_size_gb = 60
+    disk_size_gb = 128
   }
 
   source_image_reference {
@@ -56,10 +56,10 @@ resource "azurerm_windows_virtual_machine" "wkstn-2-vm" {
     version   = "latest"
   }
 
-  additional_unattend_content {
-    content = local.autologon_data
-    setting = "AutoLogon"
-  }
+  #additional_unattend_content {
+  #  content = local.autologon_data
+  #  setting = "AutoLogon"
+  #}
 
   additional_unattend_content {
     setting = "FirstLogonCommands"
@@ -75,9 +75,9 @@ resource "azurerm_windows_virtual_machine" "wkstn-2-vm" {
 resource "azurerm_virtual_machine_extension" "provisioning-wkstn-2" {
   name = "provision-wkstn-2"
   virtual_machine_id = azurerm_windows_virtual_machine.wkstn-2-vm.id
-  publisher            = "Microsoft.Azure.Extensions"
-  type                 = "CustomScript"
-  type_handler_version = "2.0"
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"
 
   settings = <<SETTINGS
   {

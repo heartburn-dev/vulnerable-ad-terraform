@@ -113,6 +113,7 @@ resource "azurerm_public_ip" "lb-public-ip" {
   resource_group_name = azurerm_resource_group.primary.name
   domain_name_label   = var.domain-name
   allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 resource "azurerm_public_ip" "nat-gateway-public-ip" {
@@ -120,6 +121,7 @@ resource "azurerm_public_ip" "nat-gateway-public-ip" {
   location            = azurerm_resource_group.primary.location
   resource_group_name = azurerm_resource_group.primary.name
   allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 ########
@@ -130,6 +132,7 @@ resource "azurerm_lb" "lb" {
   name                = "loadbalancer"
   location            = azurerm_resource_group.primary.location
   resource_group_name = azurerm_resource_group.primary.name
+  sku                 = "Standard"
 
   frontend_ip_configuration {
     name                 = azurerm_public_ip.lb-public-ip.name

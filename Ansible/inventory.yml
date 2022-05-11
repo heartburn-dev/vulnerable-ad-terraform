@@ -1,10 +1,9 @@
 ---
-windows:
-  dc:
-    hosts:
-      10.10.10.10
+domaincontroller:
+  hosts:
+    10.10.10.10
 
-  workstations:
-    hosts:
-      10.10.10.50
-      10.10.10.51
+workstations:
+  hosts:
+    10.10.10.50
+    10.10.10.51

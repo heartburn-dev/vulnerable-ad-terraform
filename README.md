@@ -6,6 +6,8 @@ This repository should spin up an Active Directory Home Lab in Azure with access
 
 For details setup instructions, please refer to my blog post on the topic.
 
+https://heartburn.dev/automating-the-creation-of-vulnerable-active-directory-labs-with-terraform-how-terra-fying/
+
 ## Installation
 
 If you know what you're doing, the following steps will suffice. If not, refer to my blog post above.

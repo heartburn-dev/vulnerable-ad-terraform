@@ -3,7 +3,7 @@
   win_dns_client:
     adapter_names: Ethernet
     ipv4_addresses:
-    - 10.10.10.10 # ZION-DC01
+    - 10.10.10.10 # HYDRA-DC
     - 8.8.8.8
 
 - name: Promote to member

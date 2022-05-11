@@ -13,13 +13,13 @@ variable "resource_group_vnet_name" {
 variable "domain-name" {
   type        = string
   description = "Domain name of the labs."
-  default     = "matrix"
+  default     = "marvel"
 }
 
 variable "domain-name-dns" {
   type        = string
   description = "DNS name of the AD lab."
-  default     = "matrix.local"
+  default     = "MARVEL.LOCAL"
 }
 
 variable "whitelisted-ip" {
@@ -36,31 +36,31 @@ variable "timezone" {
 variable "dc-hostname" {
   type        = string
   description = "Hostname of the domain controller."
-  default     = "ZION-DC01"
+  default     = "HYDRA-DC"
 }
 
 variable "workstation-hostname" {
   type        = list(string)
   description = "Hostnames of the client machines in the matrix domain."
-  default     = ["WKSTN-01", "WKSTN-02"]
+  default     = ["THE-PUNISHER", "QUEENS"]
 }
 
 variable "kali-hostname" {
   type        = string
   description = "Name of the attacking machine."
-  default     = "MACHINES"
+  default     = "domination"
 }
 
 variable "kali-username" {
   type        = string
   description = "Account on the attacking machine used to access the infrasucture."
-  default     = "smith"
+  default     = "thanos"
 }
 
 variable "windows-user" {
   type        = string
   description = "User account for the Administrative duties on the Windows workstations."
-  default     = "trinity" 
+  default     = "tstark" 
 }
 
 variable "region" {

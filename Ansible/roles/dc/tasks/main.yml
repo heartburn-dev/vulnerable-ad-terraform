@@ -12,44 +12,52 @@
 #  win_reboot:
 #  when: win_feature.reboot_required
 
-- name: Wait 60 seconds for port 9389 to become open on the host
-  ansible.windows.win_wait_for:
-    port: 9389
-    delay: 60
+- name: Wait for domain controller to be ready
+  win_shell: |
+    Get-ADDomain -Server "{{ domain_name }}"
+  register: dc_ready
+  until: dc_ready is not failed
+  ignore_errors: yes
+  retries: 60
+  delay: 15
 
-# Add all the users we want
-- name: Ensure user neo is created and use custom credentials to create the user
+
+
+# Add all the users we want. Netlogon sometimes takes a while to go up so there's failsafe in retries.
+- name: Ensure user fcastle is created and use custom credentials to create the user
   community.windows.win_domain_user:
-    name: neo
-    firstname: thomas  
-    surname: anderson
-    samaccountname: neo
+    name: fcastle
+    firstname: Frank  
+    surname: Castle
+    samaccountname: fcastle
     password: Password123!
-    description: I'm the one.
+    description: Don't forget your password Frank - Password123!
     state: present
+  register: pri_domain_setup_create_user_result
+  retries: 30
+  delay: 15
+  until: pri_domain_setup_create_user_result is successful
 
 - name: Ensure user cypher is created and use custom credentials to create the user
   community.windows.win_domain_user:
-    name: cypher
-    samaccountname: cypher
-    firstname: bad  
-    surname: guy
+    name: pparker
+    samaccountname: pparker
+    firstname: Peter  
+    surname: Parker
     password: Password1234!
-    description: Don't forget your password Cypher! Password1234!
+    description: Don't forget your password Peter! Password1234!
     state: present
 
 - name: Ensure user morpheus is created and use custom credentials to create the user
   community.windows.win_domain_user:
-    name: morpheusSVC
-    samaccountname: morpheusSVC
-    firstname: just  
-    surname: morpheus
+    name: SQL-SVC
+    samaccountname: SQL-SVC
     password: Passw0rd123
-    description: I'll look after the service accounts. You can trust me!
+    description: Service accounts in the Domain Admin group? OH NO PLEASE NO
     groups:
       - Domain Admins
     state: present
 
 - name: Add a Service Principal Name to the Morpheus user
-  ansible.windows.win_command: setspn -a {{ domain_name }}/morpheusSVC.{{ domain_name }}:9001 {{ domain_name }}\morpheusSVC
+  ansible.windows.win_command: setspn -a {{ domain_name }}/SQL-SVC.{{ domain_name }}:9001 {{ domain_name }}\SQL-SVC
   register: setspn_output

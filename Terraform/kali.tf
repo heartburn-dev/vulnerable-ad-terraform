@@ -102,7 +102,7 @@ resource "null_resource" "ansible-provisioning" {
   # All VMs have to be up before provisioning can be initiated, and we always trigger
   triggers = {
     always_run = "${timestamp()}"
-    zion_dc_id = azurerm_windows_virtual_machine.zion-dc-vm.id
+    hydra_dc_id = azurerm_windows_virtual_machine.hydra-dc-vm.id
     wkstn_1_id = azurerm_windows_virtual_machine.wkstn-1-vm.id
     wkstn_2_id = azurerm_windows_virtual_machine.wkstn-2-vm.id
     kali_id = azurerm_linux_virtual_machine.kali-vm.id
@@ -123,7 +123,7 @@ resource "null_resource" "ansible-provisioning" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt -qq update >/dev/null && sudo apt -qq install -y nmap git ansible sshpass python3-pip >/dev/null",
-      "echo 127.0.0.1 MACHINES | sudo tee -a /etc/hosts",
+      "echo 127.0.0.1 domination | sudo tee -a /etc/hosts",
       "ansible-galaxy collection install ansible.windows community.general >/dev/null",
       "cd /dev/shm/Ansible",
       "ansible-playbook -v vulnAD.yml"

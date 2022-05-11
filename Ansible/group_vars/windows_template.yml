@@ -1,13 +1,8 @@
+
 ansible_user: trinity
-ansible_password: ue1!47W:Qgv$L-08
+ansible_password: ">5YRtUjTeuf+95]y"
 ansible_connection: winrm
 domain_name: matrix.local
 reverse_dns_zone: "10.10.10.0/24"
 ansible_winrm_server_cert_validation: ignore
 ansible_winrm_transport: basic
-
-
-
-
-
-

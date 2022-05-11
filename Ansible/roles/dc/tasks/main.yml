@@ -18,28 +18,25 @@
     name: neo
     firstname: thomas  
     surname: anderson
+    samaccountname: neo
     password: Password123!
     description: I'm the one.
     state: present
-    domain_username: "{{ domain_name }}\\neo"
-    domain_password: Password123!
-    domain_server: "{{ domain_name }}"
 
 - name: Ensure user cypher is created and use custom credentials to create the user
   community.windows.win_domain_user:
     name: cypher
+    samaccountname: cypher
     firstname: bad  
     surname: guy
     password: Password1234!
     description: Don't forget your password Cypher! Password1234!
     state: present
-    domain_username: "{{ domain_name }}\\cypher"
-    domain_password: Password1234!
-    domain_server: "{{ domain_name }}"
 
 - name: Ensure user morpheus is created and use custom credentials to create the user
   community.windows.win_domain_user:
-    name: morpheus
+    name: morpheusSVC
+    samaccountname: morpheusSVC
     firstname: just  
     surname: morpheus
     password: Passw0rd123
@@ -47,11 +44,7 @@
     groups:
       - Domain Admins
     state: present
-    domain_username: "{{ domain_name }}\\morpheus"
-    domain_password: Passw0rd123
-    domain_server: "{{ domain_name }}"
-
 
 - name: Add a Service Principal Name to the Morpheus user
-  ansible.windows.win_command: setspn -a {{ domain_name }}/morpheus.{{ domain_name }}:9001 {{ domain_name }}\morpheus
+  ansible.windows.win_command: setspn -a {{ domain_name }}/morpheusSVC.{{ domain_name }}:9001 {{ domain_name }}\morpheusSVC
   register: setspn_output

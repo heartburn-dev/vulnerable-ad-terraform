@@ -1,16 +1,21 @@
 ---
 # Install ADCS
-- name: Install ADCS
-  win_feature:
-    name: AD-Certificate
-    state: present
-    include_sub_features: yes
-    include_management_tools: yes
-  register: win_feature
+#- name: Install ADCS
+#  win_feature:
+#    name: AD-Certificate
+#    state: present
+#    include_sub_features: yes
+#    include_management_tools: yes
+#  register: win_feature
+#
+#- name: Reboot after ADCS installation
+#  win_reboot:
+#  when: win_feature.reboot_required
 
-- name: Reboot after ADCS installation
-  win_reboot:
-  when: win_feature.reboot_required
+- name: Wait 60 seconds for port 9389 to become open on the host
+  ansible.windows.win_wait_for:
+    port: 9389
+    delay: 60
 
 # Add all the users we want
 - name: Ensure user neo is created and use custom credentials to create the user
